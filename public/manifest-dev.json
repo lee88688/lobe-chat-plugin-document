@@ -1,30 +1,18 @@
 {
   "$schema": "../node_modules/@lobehub/chat-plugin-sdk/schema.json",
+  "type": "standalone",
   "api": [
     {
-      "url": "http://localhost:3400/api/clothes",
-      "name": "recommendClothes",
-      "description": "根据用户的心情，给用户推荐他有的衣服",
+      "name": "getFileContent",
+      "description": "get file content",
       "parameters": {
-        "properties": {
-          "mood": {
-            "description": "用户当前的心情，可选值有：开心（happy）, 难过（sad）,生气 （anger）,害怕（fear）,惊喜（ surprise）,厌恶 （disgust）",
-            "enum": ["happy", "sad", "anger", "fear", "surprise", "disgust"],
-            "type": "string"
-          },
-          "gender": {
-            "type": "string",
-            "enum": ["man", "woman"],
-            "description": "对话用户的性别，需要询问用户后才知道这个信息"
-          }
-        },
-        "required": ["mood", "gender"],
+        "properties": {},
         "type": "object"
       }
     }
   ],
   "author": "LobeHub",
-  "createdAt": "2023-09-03",
+  "createdAt": "2024-06-20",
   "gateway": "http://localhost:3400/api/gateway",
   "homepage": "https://github.com/lobehub/chat-plugin-template",
   "identifier": "plugin-identifier",
@@ -35,8 +23,8 @@
     "description": "This is the plugin template for LobeChat plugin development"
   },
   "ui": {
-    "url": "http://localhost:3400",
-    "height": 200
+    "url": "http://localhost:3400/iframe",
+    "height": 500
   },
   "version": "1"
 }
