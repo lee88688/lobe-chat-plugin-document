@@ -12,6 +12,8 @@ export default function IframePage() {
   // 初始化渲染状态
   const [data, setData] = useState<ResponseData>();
 
+  const workerRef = useRef<Worker>();
+
   const inputRef = useRef<HTMLInputElement>(null);
 
   // 初始化时从主应用同步状态
@@ -28,6 +30,16 @@ export default function IframePage() {
     lobeChat.getPluginPayload().then((payload) => {
       console.log('getPluginPayload', payload);
     });
+  }, []);
+
+  useEffect(() => {
+    const worker = new Worker(new URL('../../workers/test.ts', import.meta.url));
+    workerRef.current = worker;
+
+    return () => {
+      worker.terminate();
+      workerRef.current = undefined;
+    };
   }, []);
 
   const fetchData = async () => {
@@ -51,7 +63,18 @@ export default function IframePage() {
     //   fileReader.readAsText(file);
     // });
 
-    lobeChat.setPluginMessage(await file.text(), true);
+    if (workerRef.current) {
+      workerRef.current.postMessage(await file.arrayBuffer());
+    }
+
+    const text = await new Promise<string>((resolve) => {
+      workerRef.current?.addEventListener('message', (e) => {
+        resolve(e.data);
+      });
+    });
+    console.log('text', text);
+
+    lobeChat.setPluginMessage(text, true);
   };
 
   return (
