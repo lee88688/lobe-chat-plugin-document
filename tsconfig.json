@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "module": "CommonJS",
-    "target": "es2015",
+    "module": "ESNext",
+    "target": "ES2015",
     "lib": [
       "dom",
       "dom.iterable",
@@ -12,7 +12,7 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "allowSyntheticDefaultImports": true,
-    "moduleResolution": "node",
+    "moduleResolution": "Bundler",
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
