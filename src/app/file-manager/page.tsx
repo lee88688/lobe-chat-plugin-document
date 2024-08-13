@@ -1,9 +1,11 @@
 'use client';
 
+import { useMutation } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
+import { Upload } from 'lucide-react';
 import React, { useRef, useState } from 'react';
 
-import { Button } from '@/components/ui/button';
+import { Button, ButtonLoading } from '@/components/ui/button';
 import { DataTable } from '@/components/ui/dataTable';
 import {
   Dialog,
@@ -15,6 +17,7 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { createFile } from '@/services/client/file';
 
 export const columns: ColumnDef<any>[] = [
   {
@@ -33,12 +36,40 @@ export const columns: ColumnDef<any>[] = [
 
 export default function Page() {
   const [openDialog, setOpenDialog] = useState(false);
+  const [name, setName] = useState('');
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const { mutate, isPending } = useMutation({
+    async mutationFn() {
+      const file = fileInputRef.current?.files?.[0];
+      if (!file) {
+        return;
+      }
+      const data = await createFile({
+        data: await file.arrayBuffer(),
+        mimeType: file.type,
+        name,
+      });
+
+      return data;
+    },
+  });
+
   return (
     <div className="container mx-auto py-10">
-      <Button onClick={() => setOpenDialog(true)}>上传</Button>
+      <div className="flex justify-end pb-1">
+        <Button
+          onClick={() => {
+            setName('');
+            setOpenDialog(true);
+          }}
+          size={'sm'}
+        >
+          <Upload className="h-3.5 w-3.5 mr-1" />
+          <span>上传</span>
+        </Button>
+      </div>
       <DataTable columns={columns} data={[]} />
       <Dialog onOpenChange={(open) => setOpenDialog(open)} open={openDialog}>
         <DialogContent className="sm:max-w-[425px]">
@@ -53,11 +84,17 @@ export default function Page() {
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label className="text-right">名称</Label>
-              <Input className="col-span-3" value="@peduarte" />
+              <Input
+                className="col-span-3"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit">上传</Button>
+            <ButtonLoading type="submit" isLoading={isPending} onClick={() => mutate()}>
+              上传
+            </ButtonLoading>
           </DialogFooter>
         </DialogContent>
       </Dialog>

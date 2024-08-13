@@ -52,6 +52,8 @@
     "not ie <= 10"
   ],
   "dependencies": {
+    "@langchain/community": "^0.2.27",
+    "@langchain/core": "^0.2.23",
     "@lobehub/chat-plugin-sdk": "^1.32.4",
     "@lobehub/chat-plugins-gateway": "^1",
     "@opendocsg/pdf2md": "^0.1.31",
@@ -65,6 +67,7 @@
     "clsx": "^2.1.1",
     "dayjs": "^1",
     "dexie": "^4.0.7",
+    "lucide-react": "^0.427.0",
     "nanoid": "^5.0.7",
     "next": "^14.2.5",
     "pdfjs-dist": "^4.5.136",
