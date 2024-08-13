@@ -1,3 +1,5 @@
+import webpack from 'webpack'
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -20,6 +22,12 @@ const nextConfig = {
       },
     ];
   },
+  webpack(config) {
+    const ignorePlugin = new webpack.IgnorePlugin({ resourceRegExp: /pdf-parse/ })
+    config.plugins.push(ignorePlugin)
+
+    return config;
+  }
 };
 
 export default nextConfig;

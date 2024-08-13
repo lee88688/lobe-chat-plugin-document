@@ -8,17 +8,32 @@ function returnMessage<T>(props: ApiMessageResponse<T> & { messageId: string }) 
   self.postMessage(props);
 }
 
+let pdfWorker: Worker;
+let pdfjs: any;
+
 self.addEventListener('message', async (event) => {
   const message = event.data as ApiMessage & { messageId: string };
   switch (message.type) {
     case 'createFile': {
       const blob = new Blob([message.data], { type: message.mimeType });
       const [document] = await new WebPDFLoader(blob, {
+        splitPages: false,
         async pdfjs() {
-          const pdfjs = await import('pdfjs-dist');
+          if (pdfjs) {
+            return pdfjs;
+          }
+
+          if (!pdfWorker) {
+            pdfWorker = new Worker(new URL('pdfjsWorker', import.meta.url));
+          }
+          pdfjs = await import('pdfjs-dist');
+          pdfjs.GlobalWorkerOptions.workerPort = pdfWorker;
           return pdfjs;
         },
       }).load();
+
+      console.log(document.pageContent);
+
       const id = nanoid();
       await getDatabase().file.add({
         id,

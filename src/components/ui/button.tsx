@@ -52,14 +52,18 @@ const ButtonLoading = React.forwardRef<HTMLButtonElement, ButtonProps & { isLoad
   ({ isLoading, children, ...props }, ref) => {
     let loadingChildren = children;
     if (isLoading) {
-      const loadingIcon = <RotateCw className="mr-2 h-4 w-4 animate-spin" />;
+      const loadingIcon = <RotateCw className="mr-2 h-4 w-4 animate-spin" key="loadingIcon" />;
       loadingChildren = Array.isArray(children)
-        ? [loadingIcon].concat(children)
-        : [loadingChildren, children];
+        ? [loadingIcon, ...children]
+        : [loadingIcon, children];
     }
 
-    return <Button ref={ref} disabled={isLoading} children={loadingChildren} {...props} />;
+    return (
+      <Button disabled={isLoading} ref={ref} {...props}>
+        {loadingChildren}
+      </Button>
+    );
   },
 );
 
-export { Button, buttonVariants, ButtonLoading };
+export { Button, ButtonLoading, buttonVariants };
