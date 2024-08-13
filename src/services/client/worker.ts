@@ -8,16 +8,23 @@ type Resolver<T> = {
 };
 
 let worker: Worker;
-const messages: Record<string, Resolver<ApiMessageResponse<any>>> = {};
+const resolvers: Record<string, Resolver<ApiMessageResponse<any>>> = {};
 
 function create() {
   worker = new Worker(new URL('../../workers/api.ts', import.meta.url));
   worker.addEventListener('message', (event) => {
     const { messageId, ...rest } = event.data;
-    const message = messages[messageId];
-    if (message) {
-      message.resolve(rest);
-      delete messages[messageId];
+    const resolver = resolvers[messageId];
+    if (resolver) {
+      const data = rest as ApiMessageResponse<any>;
+      if (data.success) {
+        resolver.resolve(data);
+      } else {
+        resolver.reject(data);
+      }
+      delete resolvers[messageId];
+    } else {
+      console.error('Unknown message', event.data);
     }
   });
 }
@@ -34,7 +41,7 @@ export function request<T = any>(message: ApiMessage) {
   const messageId = nanoid();
 
   return new Promise<ApiMessageResponse<T>>((resolve, reject) => {
-    messages[messageId] = { reject, resolve };
+    resolvers[messageId] = { reject, resolve };
     worker.postMessage({ ...message, messageId });
   });
 }

@@ -1,24 +1,34 @@
 'use client';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
 
-import NoSsr from '@/components/ui/noSsr';
+import { createDatabase } from '@/database';
 
 import './globals.css';
 
 function Provider(props: PropsWithChildren) {
-  const client = new QueryClient();
-  return <QueryClientProvider client={client}>{props.children}</QueryClientProvider>;
+  const [isMounted, setIsMounted] = useState(false);
+
+  const client = useMemo(() => {
+    return new QueryClient();
+  }, []);
+
+  useEffect(() => {
+    createDatabase();
+    setIsMounted(true);
+  }, []);
+
+  return (
+    <QueryClientProvider client={client}>{isMounted ? props.children : null}</QueryClientProvider>
+  );
 }
 
 export default function RootLayout(props: PropsWithChildren) {
   return (
     <html lang={'en'}>
       <body>
-        <NoSsr>
-          <Provider>{props.children}</Provider>
-        </NoSsr>
+        <Provider>{props.children}</Provider>
       </body>
     </html>
   );
