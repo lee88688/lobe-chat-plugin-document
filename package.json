@@ -54,6 +54,7 @@
   "dependencies": {
     "@langchain/community": "^0.2.27",
     "@langchain/core": "^0.2.23",
+    "@langchain/textsplitters": "^0.0.3",
     "@lobehub/chat-plugin-sdk": "^1.32.4",
     "@lobehub/chat-plugins-gateway": "^1",
     "@opendocsg/pdf2md": "^0.1.31",
@@ -63,6 +64,7 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@tanstack/react-query": "^5.51.23",
     "@tanstack/react-table": "^8.20.1",
+    "@xenova/transformers": "^2.17.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "dayjs": "^1",

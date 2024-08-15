@@ -22,9 +22,13 @@ const nextConfig = {
       },
     ];
   },
-  webpack(config) {
+  webpack(config, ctx) {
     const ignorePlugin = new webpack.IgnorePlugin({ resourceRegExp: /pdf-parse/ })
     config.plugins.push(ignorePlugin)
+    if (ctx.isServer) {
+      const ignorePlugin = new webpack.IgnorePlugin({ resourceRegExp: /@xenova\/transformers/ })
+      config.plugins.push(ignorePlugin)
+    }
 
     return config;
   }
