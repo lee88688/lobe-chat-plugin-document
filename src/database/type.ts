@@ -1,6 +1,6 @@
 export interface FileItem {
   content: string;
-  createdAt: Date;
+  createdAt: string;
   data: ArrayBuffer;
   id: string;
   mimeType: string;
@@ -9,14 +9,14 @@ export interface FileItem {
 
 export interface TextChunk {
   content: string;
-  createdAt: Date;
+  createdAt: string;
   fileId: string;
   id: string;
 }
 
 export interface Embedding {
   chunkId: string;
-  createdAt: Date;
+  createdAt: string;
   data: ArrayBuffer;
   fileId: string;
   id: string;
