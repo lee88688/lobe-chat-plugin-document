@@ -1,10 +1,12 @@
 import * as pdfjs from 'pdfjs-dist'
+import * as pdfjsWorker from 'pdfjs-dist/build/pdf.worker'
 import { findPageNumbers, findFirstPage, removePageNumber } from '@opendocsg/pdf2md/lib/util/page-number-functions'
 import TextItem from '@opendocsg/pdf2md/lib/models/TextItem'
 import Page from '@opendocsg/pdf2md/lib/models/Page'
 import { makeTransformations, transform } from '@opendocsg/pdf2md/lib/util/transformations'
 
-pdfjs.GlobalWorkerOptions.workerPort = new Worker(new URL('../workers/pdfjsWorker.ts', import.meta.url))
+// pdfjs.GlobalWorkerOptions.workerPort = new Worker(new URL('../workers/pdfjsWorker.ts', import.meta.url))
+self.pdfjsWorker = pdfjsWorker
 
 const NO_OP = () => {}
 

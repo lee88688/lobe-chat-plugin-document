@@ -5,12 +5,10 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { fetchClothes } from '@/services/clothes';
-import { ResponseData } from '@/type';
 
 export default function IframePage() {
   // 初始化渲染状态
-  const [data, setData] = useState<ResponseData>();
+  const [data, setData] = useState();
 
   const workerRef = useRef<Worker>();
 
@@ -41,12 +39,6 @@ export default function IframePage() {
       workerRef.current = undefined;
     };
   }, []);
-
-  const fetchData = async () => {
-    const data = await fetchClothes(payload);
-    setData(data);
-    lobeChat.setPluginMessage(data);
-  };
 
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target?.files?.[0];
