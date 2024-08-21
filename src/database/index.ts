@@ -1,23 +1,26 @@
 import Dexie from 'dexie';
 
-import { Embedding, FileItem, TextChunk } from '@/database/type';
+import { BlobItem, Embedding, FileItem, TextChunk } from '@/database/type';
 
 class Database extends Dexie {
   embedding: Dexie.Table<Embedding, string>;
   file: Dexie.Table<FileItem, string>;
   textChunk: Dexie.Table<TextChunk, string>;
+  blob: Dexie.Table<BlobItem, string>;
 
   constructor() {
     super('FileManager');
     this.version(1).stores({
       embedding: '&id, chunkId, fileId, createdAt',
-      file: '&id, name, mimeType, createdAt',
+      file: '&id, name, blobId, mimeType, createdAt',
       textChunk: '&id, fileId, content, createdAt',
+      blob: '&id, mimeType, createdAt',
     });
 
     this.embedding = this.table('embedding');
     this.file = this.table('file');
     this.textChunk = this.table('textChunk');
+    this.blob = this.table('blob');
   }
 }
 

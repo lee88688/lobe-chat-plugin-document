@@ -1,10 +1,17 @@
 export interface FileItem {
+  blobId: string;
   content: string;
+  createdAt: string;
+  id: string;
+  mimeType: string;
+  name: string;
+}
+
+export interface BlobItem {
   createdAt: string;
   data: ArrayBuffer;
   id: string;
   mimeType: string;
-  name: string;
 }
 
 export interface TextChunk {

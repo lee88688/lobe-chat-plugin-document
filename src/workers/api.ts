@@ -16,21 +16,30 @@ const apiHandle: ApiHandleMap = {
   [ApiMessageType.CreateFile]: async (message) => {
     const { default: pdf2md } = await import('@/lib/pdf2md');
     const content = await pdf2md(message.data);
-    const id = nanoid();
+
+    const blobId = nanoid();
+    await getDatabase().blob.add({
+      id: blobId,
+      mimeType: message.mimeType,
+      data: message.data,
+      createdAt: new Date().toISOString(),
+    });
+
+    const fileId = nanoid();
     await getDatabase().file.add({
-      id,
+      id: fileId,
       name: message.name,
       mimeType: message.mimeType,
       content,
-      data: message.data,
       createdAt: new Date().toISOString(),
+      blobId,
     });
 
     return {
       messageId: message.messageId,
       success: true,
       data: {
-        id,
+        id: fileId,
       },
     };
   },
