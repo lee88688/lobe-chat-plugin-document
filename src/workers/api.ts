@@ -1,4 +1,4 @@
-import { HuggingFaceTransformersEmbeddings } from '@langchain/community/embeddings/hf_transformers';
+import { TransformersEmbeddings } from '@/lib/transformersEmbedding';
 import { MarkdownTextSplitter } from '@langchain/textsplitters';
 import { nanoid } from 'nanoid';
 
@@ -86,7 +86,7 @@ const apiHandle: ApiHandleMap = {
       await db.textChunk.bulkAdd(chunksData);
 
       const embeddingsData: Embedding[] = [];
-      const model = new HuggingFaceTransformersEmbeddings({
+      const model = new TransformersEmbeddings({
         model: 'Xenova/all-MiniLM-L6-v2',
       });
       for (const chunk of chunksData) {
