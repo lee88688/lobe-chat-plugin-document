@@ -120,6 +120,13 @@ export class TransformersEmbeddings
     const data = await this.runEmbedding([
       this.stripNewLines ? text.replace(/\n/g, " ") : text,
     ]);
+    return Array.from(data[0]);
+  }
+
+  async embed(text: string): Promise<ArrayBuffer> {
+    const data = await this.runEmbedding([
+      this.stripNewLines ? text.replace(/\n/g, " ") : text,
+    ]);
     return data[0];
   }
 
@@ -130,7 +137,7 @@ export class TransformersEmbeddings
 
     return this.caller.call(async () => {
       const output = await pipe(texts, this.pipelineOptions);
-      return [...output];
+      return [...output].map(item => item.data);
     });
   }
 }

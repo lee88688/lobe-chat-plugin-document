@@ -90,9 +90,10 @@ const apiHandle: ApiHandleMap = {
         model: 'Xenova/all-MiniLM-L6-v2',
       });
       for (const chunk of chunksData) {
-        const embedding = await model.embedQuery(chunk.content);
+        const embedding = await model.embed(chunk.content);
         embeddingsData.push({
           id: nanoid(),
+          data: embedding,
           chunkId: chunk.id,
           fileId,
           createdAt,
