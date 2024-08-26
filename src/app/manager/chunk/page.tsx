@@ -32,7 +32,7 @@ export default function ChunkPage() {
       <div className="w-1/2 pr-4">
         <h2 className="text-xl font-bold mb-4">Subtitle</h2>
         <Select>
-          <SelectTrigger className="w-full">
+          <SelectTrigger className="w-1/2">
             <SelectValue placeholder="Select an option" />
           </SelectTrigger>
           <SelectContent>
