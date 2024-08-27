@@ -16,6 +16,7 @@ import {
   SelectScrollUpButton,
   SelectScrollDownButton,
 } from '@/components/ui/select';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function ChunkPage() {
 
@@ -28,29 +29,34 @@ export default function ChunkPage() {
   }, []);
 
   return (
-    <div className="p-4 flex">
-      <div className="w-1/2 pr-4">
+    <div className="p-4 flex justify-center">
+      <div className="max-w-screen-lg w-full px-4">
         <h2 className="text-xl font-bold mb-4">Subtitle</h2>
-        <Select>
-          <SelectTrigger className="w-1/2">
-            <SelectValue placeholder="Select an option" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Options</SelectLabel>
-              <SelectItem value="option1">Option 1</SelectItem>
-              <SelectItem value="option2">Option 2</SelectItem>
-              <SelectItem value="option3">Option 3</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      </div>
-      <div className="w-1/2 flex flex-wrap gap-2">
-        <div className="p-2 border rounded">Text 1</div>
-        <div className="p-2 border rounded">Text 2</div>
-        <div className="p-2 border rounded">Text 3</div>
-        <div className="p-2 border rounded">Text 4</div>
-        <div className="p-2 border rounded">Text 5</div>
+        <div className="flex flex-col md:flex-row gap-4">
+          <div className="w-full md:w-1/2">
+            <Select>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select an option" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Options</SelectLabel>
+                  <SelectItem value="option1">Option 1</SelectItem>
+                  <SelectItem value="option2">Option 2</SelectItem>
+                  <SelectItem value="option3">Option 3</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="w-full md:w-1/2 flex flex-wrap gap-2">
+            <Card>
+              <CardHeader>
+                <CardTitle>#1</CardTitle>
+                <CardContent></CardContent>
+              </CardHeader>
+            </Card>
+          </div>
+        </div>
       </div>
     </div>
   );
